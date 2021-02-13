@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_13_113347) do
+ActiveRecord::Schema.define(version: 2021_02_13_193709) do
 
   create_table "companies", force: :cascade do |t|
     t.string "name"
@@ -18,6 +18,16 @@ ActiveRecord::Schema.define(version: 2021_02_13_113347) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_companies_on_user_id"
+  end
+
+  create_table "contributors", force: :cascade do |t|
+    t.integer "company_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["company_id", "user_id"], name: "index_contributors_on_company_id_and_user_id", unique: true
+    t.index ["company_id"], name: "index_contributors_on_company_id"
+    t.index ["user_id"], name: "index_contributors_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -63,4 +73,6 @@ ActiveRecord::Schema.define(version: 2021_02_13_113347) do
   end
 
   add_foreign_key "companies", "users"
+  add_foreign_key "contributors", "companies"
+  add_foreign_key "contributors", "users"
 end

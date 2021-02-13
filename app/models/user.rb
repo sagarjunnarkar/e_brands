@@ -7,6 +7,8 @@ class User < ApplicationRecord
          :invitable
   
   after_invitation_accepted :set_role
+  has_many :contributors
+  has_many :companies, through: :contributors
 
   def set_role
     if self.invited_by.has_role?(:super_admin)
