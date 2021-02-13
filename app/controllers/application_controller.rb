@@ -1,11 +1,18 @@
 class ApplicationController < ActionController::API  
   include ActionController::HttpAuthentication::Basic::ControllerMethods
   include ActionController::HttpAuthentication::Token::ControllerMethods  
+  include ActionController::MimeResponds
 
   respond_to :json
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :authenticate_user
+
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.json { head :forbidden }
+    end
+  end
 
   private
 
