@@ -13,15 +13,19 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/contributors", type: :request do
+  let!(:admin) { FactoryBot.create(:admin) }
+  let!(:contributor_user) { FactoryBot.create(:contributor_user, email: 'c@e.com', invited_by_id: admin.id) }
+  let!(:contributor_user2) { FactoryBot.create(:contributor_user, email: 'c2@e.com', invited_by_id: admin.id) }
+  let!(:company) { FactoryBot.create(:company) }
   # This should return the minimal set of attributes required to create a valid
   # Contributor. As you add validations to Contributor, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {company_id: company.id, user_id: contributor_user.id}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { invalid: 1 }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -29,24 +33,8 @@ RSpec.describe "/contributors", type: :request do
   # ContributorsController, or in your router and rack
   # middleware. Be sure to keep this updated too.
   let(:valid_headers) {
-    {}
+    { "CONTENT_TYPE" => "application/json", 'Authorization': "Bearer #{admin.generate_jwt}" }
   }
-
-  describe "GET /index" do
-    it "renders a successful response" do
-      Contributor.create! valid_attributes
-      get contributors_url, headers: valid_headers, as: :json
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /show" do
-    it "renders a successful response" do
-      contributor = Contributor.create! valid_attributes
-      get contributor_url(contributor), as: :json
-      expect(response).to be_successful
-    end
-  end
 
   describe "POST /create" do
     context "with valid parameters" do
@@ -59,7 +47,7 @@ RSpec.describe "/contributors", type: :request do
 
       it "renders a JSON response with the new contributor" do
         post contributors_url,
-             params: { contributor: valid_attributes }, headers: valid_headers, as: :json
+             params: { contributor: valid_attributes.merge(user_id: contributor_user2.id) }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
@@ -77,51 +65,8 @@ RSpec.describe "/contributors", type: :request do
         post contributors_url,
              params: { contributor: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to eq("application/json; charset=utf-8")
       end
-    end
-  end
-
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested contributor" do
-        contributor = Contributor.create! valid_attributes
-        patch contributor_url(contributor),
-              params: { contributor: new_attributes }, headers: valid_headers, as: :json
-        contributor.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "renders a JSON response with the contributor" do
-        contributor = Contributor.create! valid_attributes
-        patch contributor_url(contributor),
-              params: { contributor: new_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:ok)
-        expect(response.content_type).to match(a_string_including("application/json"))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "renders a JSON response with errors for the contributor" do
-        contributor = Contributor.create! valid_attributes
-        patch contributor_url(contributor),
-              params: { contributor: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
-      end
-    end
-  end
-
-  describe "DELETE /destroy" do
-    it "destroys the requested contributor" do
-      contributor = Contributor.create! valid_attributes
-      expect {
-        delete contributor_url(contributor), headers: valid_headers, as: :json
-      }.to change(Contributor, :count).by(-1)
     end
   end
 end

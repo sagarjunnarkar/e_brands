@@ -5,7 +5,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, 
          :invitable
-  
+
   after_invitation_accepted :set_role
   has_many :contributors
   has_many :companies, through: :contributors

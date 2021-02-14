@@ -1,11 +1,6 @@
 class ContributorsController < ApplicationController
   before_action :set_contributor, only: %i[ show update destroy ]
   load_and_authorize_resource
-  # GET /contributors
-  # GET /contributors.json
-  def index
-    @contributors = Contributor.all
-  end
 
   # GET /contributors/1
   # GET /contributors/1.json
@@ -22,22 +17,6 @@ class ContributorsController < ApplicationController
     else
       render json: @contributor.errors, status: :unprocessable_entity
     end
-  end
-
-  # PATCH/PUT /contributors/1
-  # PATCH/PUT /contributors/1.json
-  def update
-    if @contributor.update(contributor_params)
-      render :show, status: :ok, location: @contributor
-    else
-      render json: @contributor.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /contributors/1
-  # DELETE /contributors/1.json
-  def destroy
-    @contributor.destroy
   end
 
   private

@@ -11,12 +11,13 @@ class Ability
         can :manage, :all
       elsif user.has_role?(:admin)
         can :create, Company
+        can :read, Company, user_id: user.id
         can :create, Contributor, company: {user_id: user.id}, 
           user: { invited_by_id: user.id, roles: { name: 'contributor' }
         }
+      elsif user.has_role?(:contributor)
+        can :read, Company, contributors: { user_id: user.id }
       end
-      can :read, Company, user_id: user.id
-      can :read, Company, contributors: { user_id: user.id }
       can :invite, User, roles: { name: ['admin', 'super_admin'] }
     #
     # The first argument to `can` is the action you are giving the user

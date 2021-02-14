@@ -46,3 +46,4 @@ gem 'rolify'
 gem 'devise_invitable'
 gem 'letter_opener'
 gem 'jwt'
+gem "factory_bot_rails"

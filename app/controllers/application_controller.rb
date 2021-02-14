@@ -15,7 +15,15 @@ class ApplicationController < ActionController::API
     end
   end
 
+  rescue_from ActionController::ParameterMissing, with: :handle_params_exception
+
+  rescue_from ActionController::UnpermittedParameters, with: :handle_params_exception
+
   private
+
+  def handle_params_exception(exception)
+    render json: { error: exception.message }, status: :unprocessable_entity
+  end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:email])
@@ -32,6 +40,8 @@ class ApplicationController < ActionController::API
           head :unauthorized
         end
       end
+    else
+      head :bad_request
     end
   end
   
@@ -40,7 +50,7 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    @current_user ||= super || User.find(@current_user_id)
+    @current_user ||= super || User.find_by(id: @current_user_id)
   end
 
   def signed_in?
