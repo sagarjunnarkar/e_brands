@@ -35,13 +35,6 @@ RSpec.describe "/companies", type: :request do
     { "CONTENT_TYPE" => "application/json", 'Authorization': "Bearer #{admin.generate_jwt}" }
   }
 
-  describe "GET /index" do
-    it "renders a successful response" do
-      get companies_url, headers: valid_headers, as: :json
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET /show" do
     it "renders a successful response" do
       get company_url(company), headers: valid_headers, as: :json
