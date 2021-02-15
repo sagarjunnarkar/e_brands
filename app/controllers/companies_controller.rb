@@ -3,12 +3,6 @@ class CompaniesController < ApplicationController
 
   before_action :set_company, only: %i[ show update destroy ]
 
-  # GET /companies
-  # GET /companies.json
-  def index
-    @companies = Company.all
-  end
-
   # GET /companies/1
   # GET /companies/1.json
   def show
