@@ -1,0 +1,123 @@
+{
+	"info": {
+		"_postman_id": "9375e11f-41ec-48f0-903c-b3d974029370",
+		"name": "devise",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user[email]",
+							"value": "admin2@example.com",
+							"type": "text"
+						},
+						{
+							"key": "user[password]",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{localhost}}/api/users/login",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "invitation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user[email]",
+							"value": "admin2@example.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{localhost}}/api/users/invitation",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"invitation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set password",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user[password]",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "user[password_confirmation]",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "user[invitation_token]",
+							"value": "pVpV5K6f8793xXyXUudq",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{localhost}}/api/users/invitation",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"invitation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

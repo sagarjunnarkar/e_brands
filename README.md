@@ -5,20 +5,18 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version - ruby-3.0.0
 
-* System dependencies
+* Configuration - bundle install
 
-* Configuration
+* Database creation - rake db:create
 
-* Database creation
+* Database initialization - rake db:setup
 
-* Database initialization
+* How to run the test suite - rspec
 
-* How to run the test suite
+* Default user - email - example@example.com, password - please
 
-* Services (job queues, cache servers, search engines, etc.)
+* Import postman api collection from ./postman folder
 
-* Deployment instructions
-
-* ...
+* Start server - rails s
